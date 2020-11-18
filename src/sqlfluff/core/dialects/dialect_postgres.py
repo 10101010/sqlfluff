@@ -17,6 +17,13 @@ from .dialect_ansi import ansi_dialect
 postgres_dialect = ansi_dialect.copy_as("postgres")
 
 
+postgres_dialect.patch_lexer_struct(
+    [
+        ("code", "regex", r"[0-9a-zA-Z_\$\%\?]*", dict(is_code=True))
+    ]
+)
+
+
 postgres_dialect.insert_lexer_struct(
     # JSON Operators: https://www.postgresql.org/docs/9.5/functions-json.html
     [
